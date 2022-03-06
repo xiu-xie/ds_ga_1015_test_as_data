@@ -1,0 +1,189 @@
+---
+title: "Intro to RMarkdown"
+author: "Susmita Karyakarte"
+date: "1/25/2022"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Intro to RMarkdown
+
+This is an overview to create a RMarkdown document. Homework assignments for this course must be submitted as a single RMarkdown-generated PDF that includes all written answers, code, and necessary output (e.g. figures). We will use some basic options for RMarkdown, which has much more customization than is required for this course.
+
+## Installing Packages
+
+Before getting started with RMarkdown make sure you have the following packages installed and updated in order to run and compile the RMarkdown file.
+
+rmarkdown
+
+tinytex
+
+
+You can install the following packages in RStudio by going to Tools > Install Packages. Type the package name within the 'Packages' input box and click 'Install'.
+
+Or you can also install packages by typing the install.packages("package_name") command in the console.
+
+Note : After you are done with installing the 'tinytex' package use the command tinytex::install_tinytex() to actually get the distribution to start working.
+
+## Getting started
+
+In RStudio, go to File > New File > R Markdown to create a new RMarkdown document. Select "PDF" as the output type (this can be changed later).
+
+## Document header
+
+The document header is automatically generated when the RMarkdown file is created. It looks like this:
+
+```
+---
+title: "Intro to RMarkdown"
+author: "Susmita Karyakarte"
+date: "1/25/2022"
+output: pdf_document
+---
+```
+
+Use ``output: pdf_document`` to generate your document as a PDF ``output: html_document`` will create a HTML page.
+
+## Generating your PDF/HTML document
+
+Click the "Knit" icon with the ball of yarn in the toolbar. Assuming your code does not have errors, this will save your output document in your working directory and a preview will pop up.
+
+## Resources
+
+RMarkdown ([https://rmarkdown.rstudio.com/](https://rmarkdown.rstudio.com/)) is extensively documented.
+
+
+Cheat sheet and reference guide (accessible in RStudio through Help > Cheatsheets): 
+
+- [https://www.rstudio.org/links/r_markdown_cheat_sheet](https://www.rstudio.org/links/r_markdown_cheat_sheet)
+
+- [https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+
+Comprehensive resource:
+
+- [https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/)
+
+## Formatting/organizing your document
+
+You can use Markdown as usual, e.g. "#" for section headers. See the reference guide above for more commands.
+
+## Code chunks
+
+A code chunk is surrounded by three pairs of backticks. In every chunk, you should provide ``{r unique_chunk_name, [additional options]}``.
+
+````markdown
+`r ''````{r literal, echo = TRUE}
+summary(cars)
+```
+````
+
+This is the same code shown as above, but as an actual chunk that is run, with both code/output shown.
+
+```{r example, echo=TRUE}
+# Example code chunk
+
+summary(cars)
+```
+
+The options (`echo`, `eval`, etc.) allow you to show/hide/run the code/output. Click the gear in the top right corner of the code chunk to choose between them, and the appropriate chunk options will automatically be updated.
+
+### echo
+
+For example, the following chunk is the same as above, except it uses `echo = FALSE` to only show the output, not the code. (_In general, for HW assignments, you must show both code and output to receive credit._)
+
+```{r noecho, echo=FALSE}
+# This code will not appear, but the output will appear
+summary(cars)
+```
+
+### eval
+
+Use `eval = FALSE` to not run the code.
+
+```{r cars, eval=FALSE, echo = TRUE}
+# This code will appear exactly as shown below. 
+# There is a syntax error (missing close parenthesis), but since the code is not evaluated, 
+# the document knits without problems.
+summary(cars
+```
+
+### To hide warnings or other messages
+
+While writing code that produces any warnings or messages that you may want to hide in order to make the output more clear you can use `warning = FALSE` and `message = FALSE`.
+
+```{r codewithwarnings, warning=FALSE, message=FALSE}
+summary(cars)
+```
+
+## Why doesn't my code work?
+
+- If there are errors in your code, your RMarkdown document will not compile. In the top right corner, the options under "Run" will allow you to run sections of chunks to debug.
+
+- Code must be in your RMarkdown document to run when the document is generated. If code is run only in the console during your work session, it will not be included. For example, make sure all library imports are in the RMarkdown document.
+
+- Using duplicate names for code chunks causes errors.
+
+- Stray backtick symbols in your document will interfere with the chunks.
+
+## Including LaTeX in the file
+
+RMarkdown allows you to include LaTeX directly in your file. You can include it inline as $x$ by enclosing terms within a single $ symbol as `$x$` or you can also include stand-alone equations as shown below.
+
+You can write the following equation :
+
+$$f(y; \theta, \phi) = \exp\left(\frac{y\theta - b(\theta)}{a(\phi)} + c(y, \phi)\right)$$
+
+by enclosing the equation terms within $$ signs in this way :
+
+`"$$f(y; \theta, \phi) = \exp\left(\frac{y\theta - b(\theta)}{a(\phi)} + c(y, \phi)\right)$$"`
+
+In order to align equations
+
+$$\begin{aligned}
+f(y | \mu, \sigma^2) &= \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(- \frac{(y - \mu)^2}{2\sigma^2}\right) \\
+&= \exp\left( \log\left(\frac{1}{2\pi\sigma^2}\right)\right) \exp\left(- \frac{y - \mu)^2}{2\sigma^2}\right)\\
+\end{aligned}
+$$
+
+you can start the equation with `\begin{aligned}` and end it with `\end{aligned}` in the following way :
+
+`$$\begin{aligned}`
+
+`f(y | \mu, \sigma^2) &= \frac{1}{\sqrt{2\pi\sigma^2}}`
+
+`\exp\left(- \frac{(y - \mu)^2}{2\sigma^2}\right) \\`
+
+`&= \exp\left( \log\left(\frac{1}{2\pi\sigma^2}\right)\right)`
+
+`\exp\left(- \frac{y - \mu)^2}{2\sigma^2}\right)\\`
+
+`\end{aligned}
+$$`
+
+## Including Plots
+
+You use the code chunk options (via the gear option or `fig.height=X`) to specify the figure size when including plots. When generating RMarkdown documents, check sure the figures display correctly.
+
+```{r pressure, echo=FALSE, fig.height=4}
+plot(pressure)
+```
+
+## Dataframes
+
+Dataframes can be displayed in RMarkdown documents. When making RMarkdown to PDF, check that the table width does not run off the page.
+
+```{r df, echo=TRUE}
+head(cars)
+```
+
+For extra pretty tables, the packages ``kable`` and ``kableExtra`` allow even more customization.
+
+More info: 
+
+- [https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
